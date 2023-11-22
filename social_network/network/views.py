@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .models import User, Post, Follow, Like, Comment
 
@@ -43,18 +45,21 @@ def index(request):
         "next_page": next_page,
     })
 
+@csrf_exempt
 def follow_unfollow(request, profile_user_id):
-    profile_user = User.objects.get(pk=profile_user_id)
+    if request.method == 'POST' and request.user.is_authenticated:
+        data = json.loads(request.body)
+        profile_user = User.objects.get(pk=profile_user_id)
 
-    is_follow = Follow.objects.filter(follower=request.user, followed=profile_user).exists()
-
-    if is_follow:
-        follow = Follow.objects.get(follower=request.user, followed=profile_user)
-        follow.delete()
-    else:
-        follow = Follow(follower=request.user, followed=profile_user)
-        follow.save()
-    return HttpResponseRedirect(reverse("profile", args=(profile_user_id,)))
+        if data.get('follow'):
+            follow = Follow(follower=request.user, followed=profile_user)
+            follow.save()
+            return JsonResponse({'success': True})
+        else:
+            follow = Follow.objects.get(follower=request.user, followed=profile_user)
+            follow.delete()
+            return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 def new_post(request):
     if request.method == "POST":
