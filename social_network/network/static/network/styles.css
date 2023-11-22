@@ -1,0 +1,22 @@
+.post-form {
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+}
+
+.color-type {
+    color: grey;
+}
+
+.inline-style h5, .inline-style p , .inline-style div {
+    display: inline;
+    margin-right: 5px;
+}
+
+/*in .flex-container, giving a space 5px between each items*/
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
