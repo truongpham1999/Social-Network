@@ -1,32 +1,8 @@
 {% extends "network/layout.html" %}
-{% load static %}
 
 {% block body %}
     <div class="mt-2 mx-3">
-        <div class="flex-container">
-            <div>
-                <h2>{{ profile_user.username }}</h2>
-            </div>
-            <div>
-                {% if user.is_authenticated and profile_user.id != user.id %}
-                    <button id="follow-btn" data-user-id="{{ profile_user.id }}" data-follow="{{ is_following|yesno:'true,false' }}" data-csrf-token="{{ csrf_token }}" class="btn btn-primary">
-                        {% if not is_following %}
-                            Follow
-                        {% else %}
-                            Unfollow
-                        {% endif %}
-                    </button>
-                {% endif %}
-            </div>
-        </div>
-        <div class="inline-style">
-            <div class="inline-style">
-                <h5>Followers: </h5><p id="followers-count">{{ followers_count }}</p>
-            </div>
-            <div class="inline-style">
-                <h5>Following: </h5><p id="following-count">{{ following_count }}</p>
-            </div>
-        </div>
+        <h2>Your follower's posts</h2>
 
         {% for post in posts %}
             <div class="post-form mt-1 text-left">
@@ -61,8 +37,5 @@
         </nav>
 
     </div>
-{% endblock %}
 
-{% block script %}
-    <script src="{% static 'network/network.js' %}"></script>
 {% endblock %}

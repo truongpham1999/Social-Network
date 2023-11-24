@@ -45,6 +45,23 @@ def index(request):
         "next_page": next_page,
     })
 
+def following_page(request):
+    if request.user.is_authenticated:
+        # Get the users that the logged-in user is following
+        followed_users = User.objects.filter(followed__follower=request.user)
+        posts = Post.objects.filter(poster__in=followed_users).order_by('-date')
+        
+        # using the paginate_posts function to paginate posts
+        posts, previous_page, next_page = paginate_posts(posts, request.GET.get('page'), 2)
+
+        return render(request, "network/following.html", {
+            "posts": posts,
+            "previous_page": previous_page,
+            "next_page": next_page,
+        })
+    else:
+        return HttpResponseRedirect(reverse("login"))
+
 @csrf_exempt
 def follow_unfollow(request, profile_user_id):
     if request.method == 'POST' and request.user.is_authenticated:
@@ -57,8 +74,11 @@ def follow_unfollow(request, profile_user_id):
             return JsonResponse({'success': True})
         else:
             follow = Follow.objects.get(follower=request.user, followed=profile_user)
-            follow.delete()
-            return JsonResponse({'success': True})
+            if follow:
+                follow.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'error': 'Follow object does not exist'}, status=400)
     return JsonResponse({'success': False})
 
 def new_post(request):
@@ -72,6 +92,8 @@ def new_post(request):
 def profile(request, user_id):
     profile_user = User.objects.get(pk=user_id)
     posts = profile_user.posts.all().order_by('-date')
+    followers_count = profile_user.followed.count()
+    following_count = profile_user.followers.count()
 
     # using the paginate_posts function to paginate posts
     posts, previous_page, next_page = paginate_posts(posts, request.GET.get('page'), 2)
@@ -87,6 +109,8 @@ def profile(request, user_id):
         "previous_page": previous_page,
         "next_page": next_page,
         "is_following": is_following,
+        "followers_count": followers_count,
+        "following_count": following_count,
     })
 
 
