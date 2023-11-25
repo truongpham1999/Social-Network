@@ -46,5 +46,3 @@ class Follow(models.Model):
         return "follower: " + self.follower.username + "," \
                 "followed: " + self.followed.username + "," \
                 "date: " + str(self.date)
-
-

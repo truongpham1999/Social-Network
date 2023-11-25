@@ -45,6 +45,21 @@ def index(request):
         "next_page": next_page,
     })
 
+@csrf_exempt
+def save_post(request, post_id):
+    if request.method == 'PUT' and request.user.is_authenticated:
+        try:
+            data = json.loads(request.body)
+            post = Post.objects.get(pk=post_id)
+            post.content = data.get('newText')
+            post.save()
+            return JsonResponse({'success': True})
+        except Post.DoesNotExist:
+            return JsonResponse({'error': 'Post does not exist'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': "Invalid request method"}, status=400)
+
 def following_page(request):
     if request.user.is_authenticated:
         # Get the users that the logged-in user is following

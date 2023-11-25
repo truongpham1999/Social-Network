@@ -20,3 +20,10 @@
     flex-direction: row;
     gap: 30px;
 }
+
+/*in .flex-container-2, give maximum gap between two items*/
+.flex-container-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
