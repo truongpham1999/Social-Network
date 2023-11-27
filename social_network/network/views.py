@@ -36,6 +36,13 @@ def paginate_posts(posts, page_number, posts_per_page):
 def index(request):
     posts = Post.objects.all().order_by('-date')
 
+    if request.user.is_authenticated:
+        for post in posts:
+            post.is_liked = post.is_like_by_user(request.user)
+    else:
+        for post in posts:
+            post.is_liked = False
+
     # using the paginate_posts function to paginate posts
     posts, previous_page, next_page = paginate_posts(posts, request.GET.get('page'), 2)
 
@@ -44,6 +51,27 @@ def index(request):
         "previous_page": previous_page,
         "next_page": next_page,
     })
+
+@csrf_exempt
+def like(request, post_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        data = json.loads(request.body)
+        post = Post.objects.get(pk=post_id)
+
+        # check if the like already exists
+        is_liked = Like.objects.filter(post=post, liker=request.user).exists()
+
+        if data.get('like'):
+            if not is_liked:
+                like = Like(post=post, liker=request.user)
+                like.save()
+                return JsonResponse({'success': True, 'like': True})
+        else:
+            if is_liked:
+                Like.objects.filter(post=post, liker=request.user).delete()
+                return JsonResponse({'success': True, 'like': False})
+
+    return JsonResponse({'success': False})
 
 @csrf_exempt
 def save_post(request, post_id):

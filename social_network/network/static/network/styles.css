@@ -27,3 +27,18 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.unliked {
+    color: #a7a7a7;
+    cursor: pointer;
+}
+
+.liked {
+    color: #b60808;
+    cursor: pointer;
+}
+
+.like-count {
+    display: inline;
+    font-size: 18px;
+}

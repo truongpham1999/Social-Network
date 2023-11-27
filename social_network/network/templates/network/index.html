@@ -29,6 +29,13 @@
 
                 <p class="post-content">{{ post.content }}</p>
                 <p>{{ post.date }}</p>
+                <div id="like-container-{{ post.id }}">
+                    <a href="javascript:void(0)" class="like-button {% if post.is_liked %}liked{% else %}unliked{% endif %}" 
+                    id="like-button-{{ post.id }}" data-post-id="{{ post.id }}" data-like="{{ post.is_liked|yesno:'true,false' }}">
+                        <i class="bi bi-heart-fill"></i>
+                    </a>     
+                    <span class="like-count" id="like-count-{{ post.id }}">{{ post.like_count }}</span>
+                </div>
             </div>
         {% endfor %}
 

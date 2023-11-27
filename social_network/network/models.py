@@ -14,10 +14,16 @@ class Post(models.Model):
         return "poster: " + self.poster.username + "," \
                 "content: " + self.content + "," \
                 "date: " + str(self.date) + "," \
+    
+    def like_count(self):
+        return self.likes.count()
+    
+    def is_like_by_user(self, user):
+        return self.likes.filter(liker=user).exists()
 
 class Comment(models.Model):
     content = models.CharField(max_length=1000)
-    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commenter')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     date = models.DateTimeField(auto_now_add=True)
 
@@ -28,7 +34,7 @@ class Comment(models.Model):
                 "date: " + str(self.date)
 
 class Like(models.Model):
-    liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liker')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
     date = models.DateTimeField(auto_now_add=True)
 

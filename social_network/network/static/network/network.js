@@ -12,7 +12,51 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.edit-post').forEach(function(element) {
         element.addEventListener('click', () => editPost(element.getAttribute('data-post-id')));
     });
+
+    // Like post
+    document.querySelectorAll('.like-button').forEach(function(element) {
+        element.addEventListener('click', () => likePost(element.getAttribute('data-post-id')));
+    });
+
 });
+
+function likePost(postId) {
+    const likeBtn = document.querySelector(`#like-button-${postId}`);
+    const likeCount = document.getElementById(`like-count-${postId}`);
+    let isLike = likeBtn.getAttribute('data-like') === 'true'; // Set isLike directly as a boolean
+
+    fetch(`/like/${postId}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+        },
+        body: JSON.stringify({
+            'like': !isLike
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Server response:", data);
+        if (data.success) {
+            isLike = !isLike;
+            console.log("isLike == ", isLike);
+            likeBtn.setAttribute('data-like', isLike.toString());
+
+            // Update the like count
+            if (data.like) {
+                likeBtn.classList.remove("unliked")
+                likeBtn.classList.add("liked")
+                likeCount.textContent = parseInt(likeCount.textContent) + 1;
+            }
+            else {
+                likeBtn.classList.remove("liked")
+                likeBtn.classList.add("unliked")
+                likeCount.textContent = parseInt(likeCount.textContent) - 1;
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 function editPost(postId) {
     const postDiv = document.getElementById(`post-${postId}`);
@@ -55,7 +99,7 @@ function saveEdit(postId, newText) {
 
 // Function to get CSRF token
 function getCsrfToken() {
-    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    return document.querySelector('[name=csrfmiddlewaretoken]').getAttribute('content');;
 }
 
 function follow_unfollow(followBtn, followersCount) {
