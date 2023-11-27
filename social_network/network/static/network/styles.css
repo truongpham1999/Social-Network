@@ -42,3 +42,29 @@
     display: inline;
     font-size: 18px;
 }
+
+.post-form {
+    background-color: #f9f9f9; /* Light background for posts */
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Clean, readable font */
+}
+h2, h4, h5 {
+    color: #333; /* Darker color for better readability */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Example: Matching theme color */
+    border: none;
+}
+
+/* Adjustments for better alignment and spacing */
+.flex-container, .flex-container-2 {
+    align-items: center;
+}

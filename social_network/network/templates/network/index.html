@@ -18,7 +18,7 @@
             <div class="post-form mt-1 text-left" id="post-{{ post.id }}">
                 <div class="flex-container-2">
                     <div>
-                        <a href="{% url 'profile' post.poster.id %}"><h5>{{ post.poster }}</h5></a>
+                        <a href="{% url 'profile' post.poster.id %}"><h5><strong>{{ post.poster }}</strong></h5></a>
                     </div>
                     <div>
                         {% if user == post.poster %}
