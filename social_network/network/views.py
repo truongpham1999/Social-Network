@@ -52,6 +52,23 @@ def index(request):
         "next_page": next_page,
     })
 
+def add_comment(request, post_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        data = json.loads(request.body)
+        content = data.get('content')
+        post = Post.objects.get(pk=post_id)
+        if content:
+            comment = Comment(content=content, commenter=request.user, post=post)
+            comment.save()
+            return JsonResponse({'success': True})
+        return JsonResponse({'error': 'Comment content is empty'}, status=400)
+
+def get_comments(request, post_id):
+    if request.method == 'GET':
+        post = Post.objects.get(pk=post_id)
+        comments = post.comments.all().order_by('-date')
+        return JsonResponse([comment.serialize() for comment in comments], safe=False)
+
 @csrf_exempt
 def like(request, post_id):
     if request.method == 'POST' and request.user.is_authenticated:

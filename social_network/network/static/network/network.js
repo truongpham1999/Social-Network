@@ -18,7 +18,68 @@ document.addEventListener('DOMContentLoaded', function() {
         element.addEventListener('click', () => likePost(element.getAttribute('data-post-id')));
     });
 
+    // Comment post
+    document.querySelectorAll('.comment-link').forEach(function(element) {
+        element.addEventListener('click', () => toggleComment(element.getAttribute('data-post-id')));
+    });
+
+    document.querySelectorAll('.comment-btn').forEach(function(element) {
+        element.addEventListener('click', () => addComment(element.getAttribute('data-post-id')));
+    });
+
 });
+
+function addComment(postId) {
+    const commentText = document.getElementById(`comment-text-${postId}`).value;
+    console.log("commentText == ", commentText);
+    fetch(`/add_comment/${postId}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+        },
+        body: JSON.stringify({
+            'content': commentText
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Server response:", data);
+        if (data.success) {
+            document.getElementById(`comment-text-${postId}`).value = '';
+            loadComments(postId);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function toggleComment(postId) {
+    const commentSection = document.getElementById(`comments-section-${postId}`);
+    commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+    loadComments(postId);
+}
+
+function loadComments(postId) {
+    fetch(`/get_comments/${postId}`, {
+        method: 'GET',
+    })
+    .then(response => response.json())
+    .then(comments => {
+        console.log("Server reponse:", comments);
+        const commentDiv = document.getElementById(`comments-section-${postId}`);
+        commentDiv.innerHTML = '';
+        comments.forEach(comment => {
+            commentDiv.innerHTML += `
+                <div class="comment-display">
+                    <a href="/profile/${comment.commenter.id}"><strong>${comment.commenter.username}</strong></a>
+                    <p class="comment-content">${comment.content}</p>
+                    <p class="comment-date">${comment.date}</p>
+                </div>
+            `;
+        });
+        console.log("loading cmts successfully");
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 function likePost(postId) {
     const likeBtn = document.querySelector(`#like-button-${postId}`);

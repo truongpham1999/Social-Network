@@ -32,6 +32,18 @@ class Comment(models.Model):
                 "content: " + self.content + "," \
                 "post: " + self.post.content + "," \
                 "date: " + str(self.date)
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "commenter": {
+                "id": self.commenter.id,
+                "username": self.commenter.username
+            },
+            "post": self.post.id,
+            "date": self.date.strftime("%b %d %Y, %I:%M %p")
+            }
 
 class Like(models.Model):
     liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liker')

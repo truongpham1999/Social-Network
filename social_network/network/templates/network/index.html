@@ -36,6 +36,16 @@
                     </a>     
                     <span class="like-count" id="like-count-{{ post.id }}">{{ post.like_count }}</span>
                 </div>
+                <div id="comment-container-{{ post.id}}">
+                    <a href="javascript:void(0)" class="comment-link" data-post-id="{{ post.id }}">Comments</a>
+                    <div class="comments-section" id="comments-section-{{ post.id }}" style="display:none;">
+                        <!-- Comments go here -->
+                    </div>
+                    {% if user.is_authenticated %}
+                        <textarea class="form-control comment-text" id="comment-text-{{ post.id }}" placeholder="Write a comment..." cols="70" rows="1"></textarea>
+                        <button class="btn btn-primary comment-btn" data-post-id="{{ post.id }}">Comment</button>
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
 
