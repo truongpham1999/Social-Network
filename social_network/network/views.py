@@ -115,6 +115,9 @@ def following_page(request):
         # Get the users that the logged-in user is following
         followed_users = User.objects.filter(followed__follower=request.user)
         posts = Post.objects.filter(poster__in=followed_users).order_by('-date')
+
+        for post in posts:
+            post.is_liked = post.is_like_by_user(request.user)
         
         # using the paginate_posts function to paginate posts
         posts, previous_page, next_page = paginate_posts(posts, request.GET.get('page'), 2)
@@ -163,13 +166,16 @@ def profile(request, user_id):
     followers_count = profile_user.followed.count()
     following_count = profile_user.followers.count()
 
-    # using the paginate_posts function to paginate posts
-    posts, previous_page, next_page = paginate_posts(posts, request.GET.get('page'), 2)
-
     # check if the logged-in user is following the profile user
     is_following = False
     if request.user.is_authenticated and request.user != profile_user:
         is_following = Follow.objects.filter(follower=request.user, followed=profile_user).exists()
+        
+        for post in posts:
+            post.is_liked = post.is_like_by_user(request.user)
+
+    # using the paginate_posts function to paginate posts
+    posts, previous_page, next_page = paginate_posts(posts, request.GET.get('page'), 2)
 
     return render(request, "network/profile.html", {
         "profile_user": profile_user,
