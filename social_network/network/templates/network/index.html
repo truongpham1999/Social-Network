@@ -8,7 +8,7 @@
                 <h4>New Post</h4>
                 <form action="{% url 'newPost' %}" method="post">
                     {% csrf_token %}
-                    <textarea class="form-control mb-1" name="new_post" id="new_post" cols="70" rows="3"></textarea>
+                    <textarea class="form-control mb-1 post-box" name="new_post" id="new_post" cols="70" rows="3"></textarea>
                     <input type="submit" value="Post" class="btn btn-primary">
                 </form>
             </div>
@@ -29,16 +29,17 @@
 
                 <p class="post-content">{{ post.content }}</p>
                 <p>{{ post.date }}</p>
-                <div id="like-container-{{ post.id }}">
+                <div class="like-div" id="like-container-{{ post.id }}">
                     <a href="javascript:void(0)" class="like-button {% if post.is_liked %}liked{% else %}unliked{% endif %}" 
                     id="like-button-{{ post.id }}" data-post-id="{{ post.id }}" data-like="{{ post.is_liked|yesno:'true,false' }}">
                         <i class="bi bi-heart-fill"></i>
                     </a>     
                     <span class="like-count" id="like-count-{{ post.id }}">{{ post.like_count }}</span>
+                    <a href="javascript:void(0)" class="comment-link" data-post-id="{{ post.id }}">Comments</a>
+                    <span class="comment-count" id="comment-count-{{ post.id }}">{{ post.comment_count }}</span>
                 </div>
                 <div id="comment-container-{{ post.id}}">
-                    <a href="javascript:void(0)" class="comment-link" data-post-id="{{ post.id }}">Comments</a>
-                    <div class="comments-section" id="comments-section-{{ post.id }}" style="display:none;">
+                    <div id="comments-section-{{ post.id }}" style="display:none;">
                         <!-- Comments go here -->
                     </div>
                     {% if user.is_authenticated %}

@@ -18,6 +18,9 @@ class Post(models.Model):
     def like_count(self):
         return self.likes.count()
     
+    def comment_count(self):
+        return self.comments.count()
+    
     def is_like_by_user(self, user):
         return self.likes.filter(liker=user).exists()
 

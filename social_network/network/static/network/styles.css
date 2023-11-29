@@ -40,7 +40,40 @@
 
 .like-count {
     display: inline;
-    font-size: 18px;
+    color: #727272
+}
+
+.comment-count {
+    display: inline;
+    color: #727272
+}
+
+.comment-link {
+    display: inline;
+    margin-left: 10px;
+    color: #727272;
+    font-weight: 550;
+}
+
+.like-div {
+    margin-bottom: 10px;
+}
+
+.comments-section {
+    margin-bottom: 10px;
+}
+
+.comment-text {
+    margin-bottom: 5px;
+}
+
+.comment-display {
+    background-color: #e1e1e1; /* Light background for posts */
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
 }
 
 .post-form {
@@ -55,7 +88,7 @@
 body {
     font-family: 'Arial', sans-serif; /* Clean, readable font */
 }
-h2, h4, h5 {
+h2, h4, h5, strong {
     color: #333; /* Darker color for better readability */
 }
 

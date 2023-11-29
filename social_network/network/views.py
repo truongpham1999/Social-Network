@@ -52,6 +52,7 @@ def index(request):
         "next_page": next_page,
     })
 
+
 def add_comment(request, post_id):
     if request.method == 'POST' and request.user.is_authenticated:
         data = json.loads(request.body)
@@ -63,11 +64,13 @@ def add_comment(request, post_id):
             return JsonResponse({'success': True})
         return JsonResponse({'error': 'Comment content is empty'}, status=400)
 
+
 def get_comments(request, post_id):
     if request.method == 'GET':
         post = Post.objects.get(pk=post_id)
         comments = post.comments.all().order_by('-date')
         return JsonResponse([comment.serialize() for comment in comments], safe=False)
+
 
 @csrf_exempt
 def like(request, post_id):
@@ -90,6 +93,7 @@ def like(request, post_id):
 
     return JsonResponse({'success': False})
 
+
 @csrf_exempt
 def save_post(request, post_id):
     if request.method == 'PUT' and request.user.is_authenticated:
@@ -104,6 +108,7 @@ def save_post(request, post_id):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'error': "Invalid request method"}, status=400)
+
 
 def following_page(request):
     if request.user.is_authenticated:
@@ -121,6 +126,7 @@ def following_page(request):
         })
     else:
         return HttpResponseRedirect(reverse("login"))
+
 
 @csrf_exempt
 def follow_unfollow(request, profile_user_id):
@@ -141,6 +147,7 @@ def follow_unfollow(request, profile_user_id):
                 return JsonResponse({'error': 'Follow object does not exist'}, status=400)
     return JsonResponse({'success': False})
 
+
 def new_post(request):
     if request.method == "POST":
         content = request.POST["new_post"]
@@ -148,6 +155,7 @@ def new_post(request):
         post = Post(content=content, poster=user)
         post.save()
         return HttpResponseRedirect(reverse("index"))
+
 
 def profile(request, user_id):
     profile_user = User.objects.get(pk=user_id)

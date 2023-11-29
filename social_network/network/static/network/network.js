@@ -47,6 +47,9 @@ function addComment(postId) {
         if (data.success) {
             document.getElementById(`comment-text-${postId}`).value = '';
             loadComments(postId);
+            // Update the comment count
+            const commentCount = document.getElementById(`comment-count-${postId}`);
+            commentCount.textContent = parseInt(commentCount.textContent) + 1;
         }
     })
     .catch(error => console.error('Error:', error));
@@ -71,8 +74,10 @@ function loadComments(postId) {
             commentDiv.innerHTML += `
                 <div class="comment-display">
                     <a href="/profile/${comment.commenter.id}"><strong>${comment.commenter.username}</strong></a>
-                    <p class="comment-content">${comment.content}</p>
-                    <p class="comment-date">${comment.date}</p>
+                    <div>
+                        <p class="comment-content">${comment.content}</p>
+                        <p class="comment-date">${comment.date}</p>
+                    </div>
                 </div>
             `;
         });
