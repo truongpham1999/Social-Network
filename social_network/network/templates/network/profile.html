@@ -6,10 +6,10 @@
         <div class="flex-container">
             <div>
                 <h4><strong>{{ profile_user.username }}</strong></h4>
-            </div>
+            </div> 
             <div>
                 {% if user.is_authenticated and profile_user.id != user.id %}
-                    <button id="follow-btn" data-user-id="{{ profile_user.id }}" data-follow="{{ is_following|yesno:'true,false' }}" data-csrf-token="{{ csrf_token }}" class="btn btn-primary">
+                    <button id="follow-btn" data-user-id="{{ profile_user.id }}" data-follow="{{ is_following|yesno:'true,false' }}" data-csrf-token="{{ csrf_token }}" class="btn btn-info">
                         {% if not is_following %}
                             Follow
                         {% else %}
@@ -53,7 +53,7 @@
                     </div>
                     {% if user.is_authenticated %}
                         <textarea class="form-control comment-text" id="comment-text-{{ post.id }}" placeholder="Write a comment..." cols="70" rows="1"></textarea>
-                        <button class="btn btn-primary comment-btn" data-post-id="{{ post.id }}">Comment</button>
+                        <button class="btn btn-info comment-btn" data-post-id="{{ post.id }}">Comment</button>
                     {% endif %}
                 </div>
             </div>
@@ -64,19 +64,19 @@
                 {% if posts.has_previous %}
                     <li class="page-item">
                         <a class="page-link" href="?page1" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
+                            <span style="color: #17a2b8;" aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">{{ previous_page }}</a></li>
+                    <li class="page-item"><a class="page-link" style="color: #17a2b8;" href="?page={{ posts.previous_page_number }}">{{ previous_page }}</a></li>
                 {% endif %}
 
                 <li class="page-item disabled"><span class="page-link color-type">{{ posts.number }}</span></li>
 
                 {% if posts.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">{{ next_page }}</a></li>
+                    <li class="page-item"><a class="page-link" style="color: #17a2b8;" href="?page={{ posts.next_page_number }}">{{ next_page }}</a></li>
                     <li class="page-item">
                         <a class="page-link" href="?page={{ posts.paginator.num_pages }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                            <span style="color: #17a2b8;" aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 {% endif %}

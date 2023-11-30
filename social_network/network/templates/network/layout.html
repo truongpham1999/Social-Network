@@ -15,7 +15,7 @@
     </head>
     <body>
 
-        <nav class="bg-light border navbar navbar-expand-md navbar-light">
+        <nav class="bg-light navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'index' %}">Network</a>
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
@@ -36,10 +36,18 @@
                             </li>
                         {% endif %}
                     </ul>
+
+                    <div class="navbar-nav">
+                        <form action="{% url 'search_users' %}" method="GET" class="form-inline">
+                            <input type="text" name="q" class="search-bar" placeholder="Search users..." />
+                            <button type="submit" class="btn btn-outline-info ml-2">Search</button>
+                        </form>
+                    </div>
+
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'profile' user.id %}"><strong style="color: #007bff;">{{ user.username }}</strong></a>
+                                <a class="nav-link" style="color: #17a2b8;" href="{% url 'profile' user.id %}">{{ user.username }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'logout' %}">Log Out</a>

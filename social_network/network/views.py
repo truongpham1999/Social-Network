@@ -53,6 +53,18 @@ def index(request):
     })
 
 
+def search_users(request):
+    query = request.GET.get('q')
+
+    if query:
+        # Use case-insensitive search for users
+        users = User.objects.filter(username__icontains=query)
+    else:
+        users = User.objects.none()  # Return an empty queryset if no query is provided
+
+    return render(request, 'network/search_users.html', {'users': users, 'query': query})
+
+
 def add_comment(request, post_id):
     if request.method == 'POST' and request.user.is_authenticated:
         data = json.loads(request.body)
