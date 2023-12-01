@@ -1,3 +1,11 @@
+.login-form {
+    margin-bottom: 10px;
+}
+
+.form-signs {
+    column: 30;
+}
+
 .post-form {
     border: 2px solid #ccc;
     padding: 10px;
@@ -40,12 +48,12 @@
 
 .like-count {
     display: inline;
-    color: #727272
+    color: #727272;
 }
 
 .comment-count {
     display: inline;
-    color: #727272
+    color: #727272;
 }
 
 .comment-link {
@@ -73,7 +81,7 @@
     padding: 8px;
     margin-bottom: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgb(0, 0, 0); /* subtle shadow */
+    box-shadow: 0 2px 4px rgb(74, 74, 74); /* subtle shadow */
 }
 
 .post-form {
@@ -91,6 +99,12 @@ body {
 h2, h4, h5, strong {
     color: #333; /* Darker color for better readability */
 }
+a {
+    text-decoration: none;
+}
+a:hover {
+    color: #17a2b8;
+}
 
 .post-box {
     border-radius: 12px;
@@ -98,11 +112,6 @@ h2, h4, h5, strong {
 
 .form-control {
     border-radius: 8px;
-}
-
-.btn-primary {
-    background-color: #007bff; /* Example: Matching theme color */
-    border: none;
 }
 
 /* Adjustments for better alignment and spacing */
@@ -130,3 +139,66 @@ h2, h4, h5, strong {
     font-size: 16px;
     border-radius: 10px;
 }
+
+/* responsive design */
+
+/* Responsive Typography */
+body {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 930px) {
+    body {
+        font-size: 14px;
+    }
+
+    nav {
+        font-size: 14px;
+    }
+
+    /* Padding and Margin */
+    .post-form, .comment-display {
+        padding: 5px;
+        margin-bottom: 5px;
+    }
+
+    .comment-text, .post-box {
+        width: 100%;
+    }
+
+    /* Paginator */
+    .pagination {
+        font-size: 14px;
+    }
+
+    .navbar-nav, .form-inline {
+        width: 100%; /* Full width for navbar items and search form */
+    }
+
+    /* Move the search-bar below other elements in the navbar */
+    .navbar-collapse {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Adjust the search-bar styling */
+    .search-bar {
+        width: 50%; /* Full width for the search bar */
+        margin-top: 5px; /* Add some space between the search bar and other elements */
+    }
+
+    /* Keep the user profile and logout links on the same row */
+    .ms-auto {
+        display: flex;
+        flex-direction: row;
+        gap: 5px; /* Adjust the spacing between these links */
+    }
+}
+
