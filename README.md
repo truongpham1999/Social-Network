@@ -1,2 +1,2 @@
 # Social-Network
-A social network 
+A social network application using Django
