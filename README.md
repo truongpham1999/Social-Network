@@ -1,5 +1,6 @@
 # Social-Network
 A social network application using Django
+- Link demo: https://youtu.be/yw1eUe79VqU
 
 ## Features
 1. Register
